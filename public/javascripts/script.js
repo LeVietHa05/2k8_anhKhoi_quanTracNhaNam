@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let ctxs_temp = document.querySelectorAll("div.charts canvas");
     // console.log(ctxs_temp);
     let ctxs = [];
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // const ctx3 = document.getElementById("chart3").getContext("2d");
     // const ctx4 = document.getElementById("chart4").getContext("2d");
 
-    const labels = ["00:00", "01:00", "02:00", "03:00", "04:00"];
-    const datas = [
+    let labels = ["00:00", "01:00", "02:00", "03:00", "04:00"];
+    let datas = [
         [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
         [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
         [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
@@ -21,6 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const colors = [["red", "green"], ["blue", "orange"], ["green", "black"], ["purple"]];
     const chartLabels = [["Nhiệt độ", "Độ ẩm"], ["Nhiệt độ đất", "Độ ẩm đất"], ["PM10", "PM2.5"], ["Chất lượng không khí"]];
     const charts = [];
+
+    await fetch("/readings?limit=10")
+        .then(response => response.json())
+        .then(data => {
+            labels = data.labels;
+            datas = data.datas;
+        });
 
     function createChart(ctx, label, color, labels, data) {
         return new Chart(ctx, {
