@@ -10,9 +10,11 @@ body {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background: rgb(233, 233, 233);
+    background: #F5F1E9;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-color: #D4AF37;
+    color:#D4AF37;
 }
 
 h1 {

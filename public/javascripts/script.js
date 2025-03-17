@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const labels = ["00:00", "01:00", "02:00", "03:00", "04:00"];
     const datas = [
         [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
-        [[10, 20, 15, 30, 25]],
-        [[10, 20, 15, 30, 25]],
+        [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
+        [[15, 20, 15, 30, 25], [10, 25, 5, 38, 75]],
         [[10, 20, 15, 30, 25]]
     ];
-    const colors = [["red", "green"], ["blue"], ["green"], ["purple"]];
-    const chartLabels = [["Nhiệt độ", "Độ ẩm"], ["Độ ẩm"], ["Áp suất"], ["Chất lượng không khí"]];
+    const colors = [["red", "green"], ["blue", "orange"], ["green", "black"], ["purple"]];
+    const chartLabels = [["Nhiệt độ", "Độ ẩm"], ["Nhiệt độ đất", "Độ ẩm đất"], ["PM10", "PM2.5"], ["Chất lượng không khí"]];
     const charts = [];
 
     function createChart(ctx, label, color, labels, data) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 labels: labels,
                 datasets: data.map((d, i) => ({
-                    label: label,
+                    label: label[i],
                     data: d,
                     borderColor: color[i],
                     borderWidth: 1,
@@ -53,11 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         charts.push(createChart(ctx, label, color, labels, data));
     }
-
-    // const chart1 = createChart(ctx1, "Nhiệt độ", "red", labels);
-    // const chart2 = createChart(ctx2, "Độ ẩm", "blue", labels);
-    // const chart3 = createChart(ctx3, "Áp suất", "green", labels);
-    // const chart4 = createChart(ctx4, "Chất lượng không khí", "purple", labels);
 
     // Ẩn/Hiện biểu đồ khi bật/tắt switch
     function toggleChart(switchId, chartCanvas) {
