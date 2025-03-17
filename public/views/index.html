@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <title>Hệ Thống Quan Trắc</title>
+  <link rel="stylesheet" href="/stylesheets/truestyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="flex justify-center items-center h-screen">
+  <div class="container w-full max-w-3/4 max-h-fit h-full shadow-md border-1 border-sky-500 border-solid rounded-lg p-4">
+    <h1 class="text-center">Hệ thống quan trắc nhà nấm - Thiết bị số 1</h1>
+    <!-- Khu vực chứa switch với nhãn mô tả -->
+    <div class="controls">
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" checked="true" id="toggle1">
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Hiển thị Nhiệt độ</span>
+      </div>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" checked="true" id="toggle2">
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Hiển thị Độ ẩm</span>
+      </div>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" checked="true" id="toggle3">
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Hiển thị Áp suất</span>
+      </div>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" checked="true" id="toggle4">
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Hiển thị Chất lượng không khí</span>
+      </div>
+    </div>
+    <div class="*:shadow-md *:rounded-lg charts">
+      <div class="h-96 overflow-hidden transition-all duration-500">
+        <canvas id="chart1"></canvas>
+      </div>
+      <div class="h-96 overflow-hidden  transition-all duration-500"><canvas id="chart2"></canvas></div>
+      <div class="h-96 overflow-hidden  transition-all duration-500"><canvas id="chart3"></canvas></div>
+      <div class="h-96 overflow-hidden  transition-all duration-500"><canvas id="chart4"></canvas></div>
+    </div>
+  </div>
+  <script src="/javascripts/script.js"></script>
+</body>
+
+</html>
