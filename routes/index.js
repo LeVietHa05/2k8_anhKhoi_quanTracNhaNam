@@ -118,4 +118,42 @@ router.get('/readings', function (req, res, next) {
   );
 });
 
+/* Get current LED states (for ESP32 polling) */
+router.get('/led-states', function (req, res, next) {
+  db.all('SELECT name, state FROM led_states', [], (err, rows) => {
+    if (err) {
+      return next(err);
+    }
+    const ledStates = {};
+    rows.forEach(row => {
+      ledStates[row.name] = row.state;
+    });
+    res.json(ledStates);
+  });
+});
+
+/* Set LED state (for frontend control) */
+router.post('/set-led', function (req, res, next) {
+  const { name, state } = req.body; //get the name and state from the body
+
+  //basic validation
+  if (!name || typeof state !== 'number' || (state !== 0 && state !== 1)) {
+    return res.status(400).json({ error: 'Invalid LED name or state' });
+  }
+  //update the table with the new state
+  db.run(
+    'UPDATE led_states SET state = ? WHERE name = ?',
+    [state, name],
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+      if (this.changes === 0) {
+        return res.status(404).json({ error: 'LED not found' });
+      }
+      res.json({ status: 'success', name, state });
+    }
+  );
+});
+
 module.exports = router;

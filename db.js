@@ -21,10 +21,19 @@ db.serialize(() => {
         pm25 REAL,
         pm10 REAL
     )`);
-});
 
-db.run(`DELETE FROM sensor_readings WHERE id NOT IN (
-    SELECT id FROM sensor_readings ORDER BY timestamp DESC LIMIT 1000
-)`);
+    // Create LED states table
+    db.run(`CREATE TABLE IF NOT EXISTS led_states (
+        id INTEGER PRIMARY KEY,
+        name TEXT UNIQUE NOT NULL,
+        state INTEGER DEFAULT 0  -- 0 for OFF, 1 for ON
+    )`);
+
+    // Insert initial LED states (example with 3 LEDs)
+    db.run(`INSERT OR IGNORE INTO led_states (id, name, state) VALUES
+        (1, 'LED1', 0),
+        (2, 'LED2', 0),
+        (3, 'LED3', 0)`);
+});
 
 module.exports = db;

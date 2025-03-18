@@ -74,8 +74,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    toggleChart("toggle1", document.getElementById("chart1").parentElement);
-    toggleChart("toggle2", document.getElementById("chart2").parentElement);
-    toggleChart("toggle3", document.getElementById("chart3").parentElement);
-    toggleChart("toggle4", document.getElementById("chart4").parentElement);
+    function changeLEDState(ledName) {
+        document.getElementById(ledName).addEventListener("change", function () {
+            if (this.checked) {
+                fetch('/set-led', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: ledName.toUpperCase(), state: 1 })
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data));
+            } else {
+                fetch('/set-led', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: ledName.toUpperCase(), state: 0 })
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data));
+            }
+        });
+    }
+
+    changeLEDState("led1");
+
+    // toggleChart("toggle1", document.getElementById("chart1").parentElement);
+    // toggleChart("toggle2", document.getElementById("chart2").parentElement);
+    // toggleChart("toggle3", document.getElementById("chart3").parentElement);
+    // toggleChart("toggle4", document.getElementById("chart4").parentElement);
 });
