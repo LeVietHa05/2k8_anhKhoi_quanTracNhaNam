@@ -121,16 +121,27 @@ function removeData(chart) {
     chart.update();
 }
 
-setInterval(async () => {
-    await fetch("/readings?limit=10")
+function updateData(chart, newData) {
+    chart.data.datasets.forEach((dataset, i) => {
+        dataset.data = newData[i];
+    });
+    chart.update();
+}
+
+function callAPI() {
+    fetch("/readings?limit=10")
         .then(response => response.json())
         .then(data => {
             labels = data.labels;
             datas = data.datas;
         });
 
-    for (let i = 0; i < ctxs.length; i++) {
-        const ctx = ctxs[i];
+}
+
+setInterval(async () => {
+    callAPI();
+
+    for (let i = 0; i < 4; i++) {
         const label = chartLabels[i];
         const color = colors[i];
         const data = datas[i];
@@ -148,4 +159,4 @@ setInterval(async () => {
         charts[i].update();
     }
 
-}, 10000);
+}, 5000);
