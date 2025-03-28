@@ -21,6 +21,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     const colors = [["red", "green"], ["blue", "orange"], ["green", "black"], ["purple"]];
     const chartLabels = [["Nhiệt độ", "Độ ẩm"], ["Nhiệt độ đất", "Độ ẩm đất"], ["PM10", "PM2.5"], ["Chất lượng không khí"]];
     const charts = [];
+    setInterval(async () => {
+        await fetch("/readings?limit=10")
+            .then(response => response.json())
+            .then(data => {
+                labels = data.labels;
+                datas = data.datas;
+            });
+
+        for (let i = 0; i < ctxs.length; i++) {
+            const ctx = ctxs[i];
+            const label = chartLabels[i];
+            const color = colors[i];
+            const data = datas[i];
+
+            charts[i].update();
+        }
+
+    }, 10000);
 
     await fetch("/readings?limit=10")
         .then(response => response.json())
@@ -28,6 +46,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             labels = data.labels;
             datas = data.datas;
         });
+
+    for (let i = 0; i < ctxs.length; i++) {
+        const ctx = ctxs[i];
+        const label = chartLabels[i];
+        const color = colors[i];
+        const data = datas[i];
+
+        charts.push(createChart(ctx, label, color, labels, data));
+    }
 
     function createChart(ctx, label, color, labels, data) {
         return new Chart(ctx, {
@@ -50,15 +77,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             }
         });
-    }
-
-    for (let i = 0; i < ctxs.length; i++) {
-        const ctx = ctxs[i];
-        const label = chartLabels[i];
-        const color = colors[i];
-        const data = datas[i];
-
-        charts.push(createChart(ctx, label, color, labels, data));
     }
 
     // Ẩn/Hiện biểu đồ khi bật/tắt switch
@@ -103,3 +121,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     // toggleChart("toggle3", document.getElementById("chart3").parentElement);
     // toggleChart("toggle4", document.getElementById("chart4").parentElement);
 });
+
+function addData(chart, label, newData) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(newData);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
