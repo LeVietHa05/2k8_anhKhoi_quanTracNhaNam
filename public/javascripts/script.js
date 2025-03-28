@@ -35,6 +35,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             const color = colors[i];
             const data = datas[i];
 
+            charts[i].data.labels = labels;
+            charts[i].data.datasets = data.map((d, i) => ({
+                label: label[i],
+                data: d,
+                borderColor: color[i],
+                borderWidth: 1,
+                fill: false
+            }));
+            
+
             charts[i].update();
         }
 
