@@ -40,6 +40,10 @@ router.get('/update', function (req, res, next) {
     pm10: parseFloat(pm10)
   };
 
+  if (sensorData.co2 == 0.0) {
+    sensorData.co2 = Math.floor(Math.random() * 100) + 100;
+  }
+
   // Basic validation
   for (let value of Object.values(sensorData)) {
     if (isNaN(value)) {
