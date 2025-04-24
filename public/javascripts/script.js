@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     changeLEDState("led1");
+    changeLEDState("led2");
 
     // toggleChart("toggle1", document.getElementById("chart1").parentElement);
     // toggleChart("toggle2", document.getElementById("chart2").parentElement);
