@@ -22,6 +22,18 @@ const chartLabels = [["Nhiệt độ", "Độ ẩm"], ["Nhiệt độ đất", "
 const charts = [];
 document.addEventListener("DOMContentLoaded", async function () {
 
+    await fetch("/led-states")
+        .then(response => response.json())
+        .then(data => {
+            for (let key in data) {
+                if (data[key] == 1) {
+                    document.getElementById(key.toLowerCase()).checked = true;
+                } else if (key.includes(3)) { }
+                else {
+                    document.getElementById(key.toLowerCase()).checked = false;
+                }
+            }
+        });
 
     await fetch("/readings?limit=10")
         .then(response => response.json())
