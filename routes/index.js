@@ -95,7 +95,11 @@ router.get('/readings', function (req, res, next) {
       }
 
       const labels = rows.map(row => {
+        //TODO: change to GMT+7
+        // Convert timestamp to local time
         const date = new Date(row.timestamp);
+        date.setHours(date.getHours() + 7); // Adjust for GMT+7
+        // Format date to "HH:MM"
         return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
       }).reverse(); // Reverse to show oldest to newest
 
